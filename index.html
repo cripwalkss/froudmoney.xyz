@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>fraudmoney.xyz</title>
+  <style>
+    /* Reset */
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+
+    /* background */
+    body{
+      display:grid;
+      place-items:center;
+      min-height:100vh;
+      background:#0b0b0c;
+      color:#e6e6e9;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      overflow:hidden;
+    }
+
+    /* Subtle animated radial gradients */
+    .bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+    .bg::before, .bg::after{
+      content:"";position:absolute;inset:-20%;background:radial-gradient(closest-side, rgba(255,0,128,0.06), transparent 40%);
+      transform:translateY(-10%);
+      mix-blend-mode:screen;filter:blur(60px);
+      animation: drift 12s linear infinite;
+    }
+    .bg::after{
+      background:radial-gradient(closest-side, rgba(0,200,255,0.03), transparent 30%);
+      left:30%;top:10%;animation-duration:18s;transform:translateY(6%);
+    }
+    @keyframes drift{0%{transform:translateY(-6%) translateX(-2%)}50%{transform:translateY(6%) translateX(2%)}100%{transform:translateY(-6%) translateX(-2%)}}
+
+    /* Grain / noise overlay */
+    .noise{position:absolute;inset:0;z-index:2;mix-blend-mode:overlay;opacity:0.06;background-image:linear-gradient(transparent 50%, rgba(0,0,0,0.02) 50%);background-size:100% 2px;pointer-events:none}
+
+    /* Main card */
+    .hero{
+      position:relative;z-index:5;padding:48px 64px;border-radius:18px;backdrop-filter:blur(6px);
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+      border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 40px rgba(0,0,0,0.8);
+      text-align:center;max-width:900px;width:calc(100% - 80px);
+      transform:translateZ(0);
+    }
+
+    /* Main title styling: heavy, neon edge, glitch */
+    .title{
+      font-size:clamp(36px, 8vw, 96px);
+      letter-spacing: -0.03em;
+      line-height:0.9;
+      font-weight:800;
+      position:relative;
+      display:inline-block;
+      padding:6px 14px;
+      color:#e6e6e9;
+      -webkit-text-stroke: 1px rgba(0,0,0,0.6);
+      text-transform:lowercase;
+    }
+
+    /* Neon glow */
+    .title::before{
+      content:attr(data-text);
+      position:absolute;left:0;top:0;z-index:-1;
+      filter:blur(10px);opacity:0.85;color:#ff2d95;transform:translateY(-2px) translateX(2px);
+    }
+    .title::after{
+      content:attr(data-text);
+      position:absolute;left:0;top:0;z-index:-2;
+      filter:blur(18px);opacity:0.55;color:#00e0ff;transform:translateY(6px) translateX(-6px);
+      mix-blend-mode:screen;
+    }
+
+    /* Glitch layers for dynamic edge */
+    .glitch{position:relative;display:inline-block}
+    .glitch span{position:relative;display:inline-block}
+    .glitch span::before, .glitch span::after{
+      content:attr(data-text);position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;clip:rect(0,9999px,0,0);
+    }
+    .glitch span::before{left:2px;color:#ff3b9a;animation:glitchTop 2.5s infinite linear}
+    .glitch span::after{left:-2px;color:#2ce6ff;animation:glitchBottom 3.1s infinite linear}
+
+    @keyframes glitchTop{
+      0%{clip:rect(0,9999px,0,0);transform:translateY(0)}
+      10%{clip:rect(0,9999px,30px,0);transform:translate(-2px,-2px)}
+      20%{clip:rect(20px,9999px,60px,0);transform:translate(2px,1px)}
+      30%{clip:rect(0,9999px,0,0);transform:translate(0)}
+      100%{clip:rect(0,9999px,0,0)}
+    }
+    @keyframes glitchBottom{
+      0%{clip:rect(0,9999px,0,0)}
+      8%{clip:rect(40px,9999px,80px,0);transform:translate(3px,2px)}
+      18%{clip:rect(10px,9999px,40px,0);transform:translate(-2px,-1px)}
+      28%{clip:rect(0,9999px,0,0);transform:translate(0)}
+      100%{clip:rect(0,9999px,0,0)}
+    }
+
+    /* Subtitle */
+    .sub{margin-top:12px;font-size:15px;opacity:0.7;letter-spacing:0.02em}
+
+    /* Footer note small */
+    .foot{margin-top:22px;font-size:12px;color:rgba(230,230,233,0.55)}
+
+    /* Accent lines */
+    .accent{
+      height:6px;width:120px;margin:22px auto 8px;background:linear-gradient(90deg,#ff2d95,#00e0ff);border-radius:999px;opacity:0.95;filter:blur(0.6px)
+    }
+
+    /* Responsive tweaks */
+    @media (max-width:520px){
+      .hero{padding:28px}
+      .accent{width:90px}
+    }
+
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="noise"></div>
+
+  <main class="hero">
+    <div class="accent" aria-hidden="true"></div>
+    <h1 class="title glitch" data-text="fraudmoney.xyz" aria-label="fraudmoney.xyz">
+      <span data-text="fraudmoney.xyz">fraudmoney.xyz</span>
+    </h1>
+    <p class="sub">$$$$</p>
+    <p class="foot">Leck Eier $</code></p>
+  </main>
+
+</body>
+</html>
