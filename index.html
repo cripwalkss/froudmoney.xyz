@@ -1,133 +1,825 @@
 <!doctype html>
-<html lang="de">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>fraudmoney.xyz</title>
-  <style>
-    /* Reset */
-    *{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>fraudmoney.xyz</title>
+<meta name="description" content="Professional Gaming Configs for Gamesense & Neverlose" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<!-- Font Awesome Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --bg:#0b0b0b;
+    --muted:rgba(255,255,255,0.6);
+    --white:#fff;
+    --black:#000;
+    --radius:14px;
+    --primary: #ffffff;
+    --primary-dark: #cccccc;
+    --gradient: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+    --card-bg: rgba(255,255,255,0.03);
+    --card-border: rgba(255,255,255,0.1);
+    font-family:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--white);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#000;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+    padding: 16px;
+  }
 
-    /* background */
+  /* Background image */
+  .bg{
+    position:fixed;inset:0;z-index:-2;
+    background:url('assets/bg.png') center/cover no-repeat;
+  }
+  .bg::after{
+    content:"";
+    position:absolute;inset:0;
+    backdrop-filter:blur(12px) saturate(120%);
+    background:rgba(0,0,0,0.6);
+  }
+
+  .wrap{
+    width:100%;
+    max-width:900px;
+    margin:0 auto;
+  }
+  .card{
+    background:var(--card-bg);
+    border-radius:24px;
+    padding:clamp(20px, 4vw, 32px);
+    border:1px solid var(--card-border);
+    backdrop-filter:blur(16px);
+    box-shadow:0 20px 60px rgba(0,0,0,0.8);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Subtle animated background effect */
+  .card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient);
+    animation: shimmer 4s infinite;
+    z-index: 1;
+  }
+  
+  @keyframes shimmer {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+
+  /* profile */
+  .profile{
+    text-align:center;
+    margin-bottom:32px;
+    position:relative;
+  }
+  .avatar {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+  .avatar img{
+    width:clamp(90px, 20vw, 120px);
+    height:clamp(90px, 20vw, 120px);
+    border-radius:999px;
+    border:2px solid rgba(255,255,255,0.2);
+    box-shadow:0 8px 32px rgba(0,0,0,0.8);
+    object-fit:cover;
+    transition: all 0.4s ease;
+    filter: grayscale(100%) contrast(120%);
+  }
+  .avatar::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border-radius: 50%;
+    background: var(--gradient);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .avatar:hover::after {
+    opacity: 0.3;
+  }
+  .avatar:hover img {
+    transform: scale(1.08);
+    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.15);
+  }
+  
+  h1 {
+    margin:16px 0 0;
+    font-size:clamp(24px, 6vw, 32px);
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    text-align: center;
+  }
+  
+  .role{
+    color:var(--muted);
+    font-size:clamp(12px, 3vw, 14px);
+    margin-top:6px;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  .stats{
+    display:flex;
+    gap:clamp(20px, 5vw, 32px);
+    justify-content:center;
+    margin-top:20px;
+    color:var(--muted);
+    font-size:clamp(12px, 3vw, 14px);
+  }
+  .stats div {
+    transition: transform 0.3s ease;
+    text-align: center;
+  }
+  .stats div:hover {
+    transform: translateY(-4px);
+  }
+  .stats strong {
+    display: block;
+    font-size:clamp(16px, 4vw, 20px);
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: 2px;
+  }
+
+  /* Crypto Wallet */
+  .wallet-section {
+    margin: 24px 0;
+    padding: 20px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    text-align: center;
+  }
+  
+  .wallet-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .wallet-header i {
+    font-size: 20px;
+    color: var(--primary);
+  }
+  
+  .wallet-address {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.03);
+    padding: 14px 18px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    font-family: 'Courier New', monospace;
+    font-size: clamp(12px, 3vw, 14px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 8px;
+  }
+  
+  .wallet-address:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.12);
+    transform: translateY(-1px);
+  }
+  
+  .copy-btn {
+    background: var(--gradient);
+    color: #000;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  
+  .copy-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,255,255,0.3);
+  }
+
+  /* link buttons */
+  .links{
+    display:grid;
+    gap:16px;
+    margin:28px 0;
+  }
+  .link{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    padding:18px 20px;
+    border-radius:16px;
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.08);
+    text-decoration:none;
+    color:var(--white);
+    transition:all .3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .link::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient);
+    opacity: 0.1;
+    transition: left 0.4s ease;
+    z-index: 0;
+  }
+  .link:hover::before {
+    left: 0;
+  }
+  .link:hover{
+    transform:translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  }
+  .link i{
+    font-size:24px;
+    opacity:0.9;
+    width:32px;
+    text-align:center;
+    position: relative;
+    z-index: 1;
+  }
+  .meta{
+    flex:1;
+    position: relative;
+    z-index: 1;
+    text-align: left;
+  }
+  .title{
+    font-weight:700;
+    font-size:16px;
+  }
+  .sub{
+    font-size:13px;
+    color:var(--muted);
+    margin-top:4px;
+  }
+
+  /* products */
+  .products{
+    margin-top:12px;
+    display:grid;
+    gap:16px;
+  }
+  .prod{
+    display:flex;
+    flex-direction: column;
+    gap: 12px;
+    background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:16px;
+    padding:20px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .prod::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--gradient);
+    transform: scaleY(0);
+    transition: transform 0.4s ease;
+  }
+  .prod:hover::before {
+    transform: scaleY(1);
+  }
+  .prod:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+  .prod-left{
+    flex: 1;
+  }
+  .prod-title{
+    font-weight:700;
+    font-size:18px;
+    margin-bottom: 6px;
+  }
+  .prod-sub{
+    font-size:14px;
+    color:var(--muted);
+  }
+  .prod-right{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  .price{
+    font-weight:800;
+    font-size:20px;
+    color: var(--primary);
+  }
+  .small{
+    font-size:13px;
+    color:var(--muted);
+  }
+  .actions{
+    display:flex;
+    gap:12px;
+    margin-top:8px;
+    justify-content: center;
+  }
+  .btn{
+    padding:12px 20px;
+    border-radius:12px;
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.1);
+    color:var(--white);
+    cursor:pointer;
+    font-weight:600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    font-size:14px;
+    min-width: 100px;
+  }
+  .btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-3px);
+  }
+  .btn.primary{
+    background: var(--gradient);
+    color:#000;
+    border:none;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+  }
+  .btn.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+  }
+
+  footer{
+    text-align:center;
+    color:rgba(255,255,255,0.4);
+    font-size:13px;
+    margin-top:28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  /* modal */
+  .modal-backdrop{
+    position:fixed;inset:0;display:none;align-items:center;justify-content:center;
+    background:rgba(0,0,0,0.7);z-index:60;
+    backdrop-filter: blur(8px);
+    padding: 16px;
+  }
+  .modal{
+    width:100%;max-width:500px;background:#0a0a0a;padding:24px;border-radius:20px;
+    border:1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
+    animation: modalAppear 0.4s ease;
+    position: relative;
+  }
+  .modal::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient);
+  }
+  @keyframes modalAppear {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-bottom:16px;
+  }
+  .field label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+  }
+  .field input,.field textarea, .field select{
+    padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);
+    background:rgba(255,255,255,0.03);color:white;outline:none;
+    transition: all 0.3s ease;
+    font-size: 14px;
+  }
+  .field input:focus,.field textarea:focus, .field select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  }
+
+  /* Section headers */
+  section h2 {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+  }
+  section h2::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: var(--gradient);
+    border-radius: 2px;
+  }
+
+  @media (min-width: 768px){
+    .links{
+      grid-template-columns:1fr 1fr;
+    }
+    .products{
+      grid-template-columns:1fr 1fr;
+    }
+    .prod{
+      flex-direction: row;
+      text-align: left;
+    }
+    .prod-right{
+      align-items: flex-end;
+    }
+    .actions{
+      justify-content: flex-end;
+    }
+  }
+
+  /* Mobile specific styles */
+  @media (max-width: 767px){
     body{
-      display:grid;
-      place-items:center;
-      min-height:100vh;
-      background:#0b0b0c;
-      color:#e6e6e9;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      overflow:hidden;
+      padding: 12px;
+      align-items: flex-start;
     }
-
-    /* Subtle animated radial gradients */
-    .bg{position:absolute;inset:0;z-index:0;pointer-events:none}
-    .bg::before, .bg::after{
-      content:"";position:absolute;inset:-20%;background:radial-gradient(closest-side, rgba(255,0,128,0.06), transparent 40%);
-      transform:translateY(-10%);
-      mix-blend-mode:screen;filter:blur(60px);
-      animation: drift 12s linear infinite;
+    .card{
+      border-radius: 20px;
+      padding: 20px;
     }
-    .bg::after{
-      background:radial-gradient(closest-side, rgba(0,200,255,0.03), transparent 30%);
-      left:30%;top:10%;animation-duration:18s;transform:translateY(6%);
+    .stats{
+      gap: 20px;
     }
-    @keyframes drift{0%{transform:translateY(-6%) translateX(-2%)}50%{transform:translateY(6%) translateX(2%)}100%{transform:translateY(-6%) translateX(-2%)}}
-
-    /* Grain / noise overlay */
-    .noise{position:absolute;inset:0;z-index:2;mix-blend-mode:overlay;opacity:0.06;background-image:linear-gradient(transparent 50%, rgba(0,0,0,0.02) 50%);background-size:100% 2px;pointer-events:none}
-
-    /* Main card */
-    .hero{
-      position:relative;z-index:5;padding:48px 64px;border-radius:18px;backdrop-filter:blur(6px);
-      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
-      border:1px solid rgba(255,255,255,0.03);box-shadow:0 10px 40px rgba(0,0,0,0.8);
-      text-align:center;max-width:900px;width:calc(100% - 80px);
-      transform:translateZ(0);
+    .wallet-address{
+      flex-direction: column;
+      gap: 12px;
+      text-align: center;
     }
-
-    /* Main title styling: heavy, neon edge, glitch */
-    .title{
-      font-size:clamp(36px, 8vw, 96px);
-      letter-spacing: -0.03em;
-      line-height:0.9;
-      font-weight:800;
-      position:relative;
-      display:inline-block;
-      padding:6px 14px;
-      color:#e6e6e9;
-      -webkit-text-stroke: 1px rgba(0,0,0,0.6);
-      text-transform:lowercase;
+    .copy-btn{
+      width: 100%;
+      margin-left: 0;
     }
-
-    /* Neon glow */
-    .title::before{
-      content:attr(data-text);
-      position:absolute;left:0;top:0;z-index:-1;
-      filter:blur(10px);opacity:0.85;color:#ff2d95;transform:translateY(-2px) translateX(2px);
+    .link{
+      padding: 16px;
     }
-    .title::after{
-      content:attr(data-text);
-      position:absolute;left:0;top:0;z-index:-2;
-      filter:blur(18px);opacity:0.55;color:#00e0ff;transform:translateY(6px) translateX(-6px);
-      mix-blend-mode:screen;
-    }
+  }
 
-    /* Glitch layers for dynamic edge */
-    .glitch{position:relative;display:inline-block}
-    .glitch span{position:relative;display:inline-block}
-    .glitch span::before, .glitch span::after{
-      content:attr(data-text);position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;clip:rect(0,9999px,0,0);
-    }
-    .glitch span::before{left:2px;color:#ff3b9a;animation:glitchTop 2.5s infinite linear}
-    .glitch span::after{left:-2px;color:#2ce6ff;animation:glitchBottom 3.1s infinite linear}
-
-    @keyframes glitchTop{
-      0%{clip:rect(0,9999px,0,0);transform:translateY(0)}
-      10%{clip:rect(0,9999px,30px,0);transform:translate(-2px,-2px)}
-      20%{clip:rect(20px,9999px,60px,0);transform:translate(2px,1px)}
-      30%{clip:rect(0,9999px,0,0);transform:translate(0)}
-      100%{clip:rect(0,9999px,0,0)}
-    }
-    @keyframes glitchBottom{
-      0%{clip:rect(0,9999px,0,0)}
-      8%{clip:rect(40px,9999px,80px,0);transform:translate(3px,2px)}
-      18%{clip:rect(10px,9999px,40px,0);transform:translate(-2px,-1px)}
-      28%{clip:rect(0,9999px,0,0);transform:translate(0)}
-      100%{clip:rect(0,9999px,0,0)}
-    }
-
-    /* Subtitle */
-    .sub{margin-top:12px;font-size:15px;opacity:0.7;letter-spacing:0.02em}
-
-    /* Footer note small */
-    .foot{margin-top:22px;font-size:12px;color:rgba(230,230,233,0.55)}
-
-    /* Accent lines */
-    .accent{
-      height:6px;width:120px;margin:22px auto 8px;background:linear-gradient(90deg,#ff2d95,#00e0ff);border-radius:999px;opacity:0.95;filter:blur(0.6px)
-    }
-
-    /* Responsive tweaks */
-    @media (max-width:520px){
-      .hero{padding:28px}
-      .accent{width:90px}
-    }
-
-  </style>
+  /* Loading animation for form submission */
+  .loading {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-right: 8px;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Toast notification */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--gradient);
+    color: #000;
+    padding: 14px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    z-index: 100;
+    opacity: 0;
+    transition: all 0.4s ease;
+    font-size: 14px;
+  }
+  
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+</style>
 </head>
 <body>
-  <div class="bg"></div>
-  <div class="noise"></div>
+  <div class="bg" aria-hidden="true"></div>
 
-  <main class="hero">
-    <div class="accent" aria-hidden="true"></div>
-    <h1 class="title glitch" data-text="fraudmoney.xyz" aria-label="fraudmoney.xyz">
-      <span data-text="fraudmoney.xyz">fraudmoney.xyz</span>
-    </h1>
-    <p class="sub">$$$$</p>
-    <p class="foot">Leck Eier $</code></p>
+  <main class="wrap">
+    <div class="card" role="main">
+      <section class="profile">
+        <div class="avatar">
+          <img src="assets/pfp.png" alt="Profile picture" />
+        </div>
+        <h1>checkmate</h1>
+        <div class="role">Crypto Trader & Software Developer</div>
+        <div class="stats">
+          <div>
+            <strong>3Y+</strong>
+            <div>Trading Exp</div>
+          </div>
+          <div>
+            <strong>500+</strong>
+            <div>Configs Sold</div>
+          </div>
+          <div>
+            <strong>99%</strong>
+            <div>Success Rate</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="wallet-section">
+        <div class="wallet-header">
+          <i class="fa-brands fa-bitcoin"></i>
+          <h3 style="margin:0;font-size:18px;">Crypto Payments</h3>
+        </div>
+        <div class="wallet-address" onclick="copyLitecoinAddress()">
+          <span id="litecoinText">MHhX7CHajrNaVjXqFFSHf5rc1qCdomh6ah</span>
+          <button class="copy-btn">COPY LTC</button>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-top:12px;text-align:center;">
+          Send exact amount in Litecoin - Click to copy address
+        </div>
+      </section>
+
+      <section aria-label="Accounts">
+        <h2>Accounts</h2>
+        <div class="links">
+          <a class="link" href="https://steamcommunity.com/id/cripwalkss/" target="_blank" rel="noopener">
+            <i class="fa-brands fa-steam"></i>
+            <div class="meta">
+              <div class="title">Steam</div>
+              <div class="sub">steamcommunity.com/id/cripwalkss</div>
+            </div>
+          </a>
+
+          <a class="link" href="https://discord.gg/9QcGbuWcne" target="_blank" rel="noopener">
+            <i class="fa-brands fa-discord"></i>
+            <div class="meta">
+              <div class="title">Discord</div>
+              <div class="sub">discord.gg/9QcGbuWcne</div>
+            </div>
+          </a>
+
+          <a class="link" href="https://github.com/" target="_blank" rel="noopener">
+            <i class="fa-brands fa-github"></i>
+            <div class="meta">
+              <div class="title">GitHub</div>
+              <div class="sub">github.com/checkmate</div>
+            </div>
+          </a>
+
+          <a class="link" href="#" onclick="openContact('contact');return false;">
+            <i class="fa-solid fa-envelope"></i>
+            <div class="meta">
+              <div class="title">Contact</div>
+              <div class="sub">Direct via Email</div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section aria-label="Configs">
+        <h2>HVH Configs</h2>
+        <div class="products">
+          <div class="prod">
+            <div class="prod-left">
+              <div class="prod-title">Gamesense HVH Config</div>
+              <div class="prod-sub">Optimized HVH settings for Gamesense.pub</div>
+            </div>
+            <div class="prod-right">
+              <div class="price">2.50€</div>
+              <div class="small">★ 4.9 | 300+ Sales</div>
+              <div class="actions">
+                <a href="https://fraudmoney.xyz/gamesense" class="btn primary" target="_blank">Buy</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="prod">
+            <div class="prod-left">
+              <div class="prod-title">Neverlose HVH Config</div>
+              <div class="prod-sub">Premium HVH Config for Neverlose.cc</div>
+            </div>
+            <div class="prod-right">
+              <div class="price">2.50€</div>
+              <div class="small">★ 4.9 | 200+ Sales</div>
+              <div class="actions">
+                <a href="https://fraudmoney.xyz/neverlose" class="btn primary" target="_blank">Buy</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span> fraudmoney.xyz — Professional Gaming Configs.
+      </footer>
+    </div>
   </main>
 
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">Litecoin address copied!</div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-backdrop" role="dialog" aria-hidden="true">
+    <div class="modal">
+      <h3 style="text-align: center; margin-bottom: 20px;">Config Request</h3>
+      <form id="orderForm" onsubmit="submitForm(event)">
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" required placeholder="name@example.com">
+        </div>
+        <div class="field">
+          <label for="platform">Platform</label>
+          <select id="platform" name="platform" style="width:100%;">
+            <option value="gamesense">Gamesense.pub</option>
+            <option value="neverlose">Neverlose.cc</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="msg">Message (Optional)</label>
+          <textarea id="msg" name="message" rows="3" placeholder="Special requests or questions..."></textarea>
+        </div>
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:20px;">
+          <button type="button" class="btn" onclick="closeModal()">Cancel</button>
+          <button type="submit" class="btn primary" id="submitBtn">
+            <span id="submitText">Request (2.50€)</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Clantag Animation für Browser Tab
+  const fullDomain = 'fraudmoney.xyz';
+  let isBuilding = true;
+  let currentText = '';
+  let index = 0;
+  
+  function animateTabTitle() {
+    if (isBuilding) {
+      if (index <= fullDomain.length) {
+        currentText = fullDomain.substring(0, index);
+        document.title = currentText;
+        index++;
+        setTimeout(animateTabTitle, 250);
+      } else {
+        isBuilding = false;
+        setTimeout(animateTabTitle, 2500);
+      }
+    } else {
+      if (currentText.length > 0) {
+        currentText = currentText.substring(0, currentText.length - 1);
+        document.title = currentText;
+        setTimeout(animateTabTitle, 125);
+      } else {
+        isBuilding = true;
+        index = 0;
+        setTimeout(animateTabTitle, 1250);
+      }
+    }
+  }
+  
+  // Start animation
+  animateTabTitle();
+
+  // Litecoin Address Copy Function
+  function copyLitecoinAddress() {
+    const litecoinAddress = "MHhX7CHajrNaVjXqFFSHf5rc1qCdomh6ah";
+    navigator.clipboard.writeText(litecoinAddress).then(() => {
+      showToast('Litecoin address copied to clipboard!');
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+      showToast('Failed to copy address');
+    });
+  }
+
+  // Toast Notification
+  function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 3000);
+  }
+
+  function openModalFor(configName){
+    document.getElementById('msg').value = `I want to buy the ${configName}.`;
+    
+    if(configName.includes('Gamesense')) {
+      document.getElementById('platform').value = 'gamesense';
+    } else if(configName.includes('Neverlose')) {
+      document.getElementById('platform').value = 'neverlose';
+    }
+    
+    openModal();
+  }
+
+  function openModal(){
+    const m=document.getElementById('modal');
+    m.style.display='flex';m.setAttribute('aria-hidden','false');
+    document.getElementById('email').focus();
+  }
+  
+  function closeModal(){
+    const m=document.getElementById('modal');
+    m.style.display='none';m.setAttribute('aria-hidden','true');
+  }
+  
+  function openContact(pref){
+    document.getElementById('msg').value=pref==='contact'?'I would like to get in contact.':'';
+    openModal();
+  }
+
+  function submitForm(e){
+    e.preventDefault();
+    const email=document.getElementById('email').value.trim();
+    const platform=document.getElementById('platform').value;
+    const msg=document.getElementById('msg').value.trim();
+    const submitBtn = document.getElementById('submitBtn');
+    const submitText = document.getElementById('submitText');
+    
+    if(!email) return alert('Please fill in your email.');
+    
+    submitBtn.disabled = true;
+    submitText.innerHTML = '<span class="loading"></span>Sending...';
+    
+    setTimeout(() => {
+      console.log('Config request:',{email, platform, msg});
+      alert(`Your request for the ${platform === 'gamesense' ? 'Gamesense' : 'Neverlose'} config has been sent. I will email you with payment details.`);
+      closeModal();
+      e.target.reset();
+      
+      submitBtn.disabled = false;
+      submitText.textContent = 'Request (2.50€)';
+    }, 1500);
+  }
+</script>
 </body>
 </html>
